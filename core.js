@@ -1,0 +1,13 @@
+/* Small, dependency-free calculation core shared by the UI and smoke tests. */
+(()=>{'use strict';
+const finite=(n,label)=>{if(!Number.isFinite(n))throw new TypeError(`${label} должен быть конечным числом`);return n};
+window.MH_CORE=Object.freeze({
+  experienceTotal(level){if(!Number.isSafeInteger(level)||level<0||level>1_000_000)throw new RangeError('Уровень должен быть целым числом от 0 до 1 000 000');if(level<=16)return level*(level+6);if(level<=31)return (5*level*level-81*level+720)/2;return (9*level*level-325*level+4440)/2},
+  coordinates(x,z,from){finite(x,'X');finite(z,'Z');if(!['overworld','nether'].includes(from))throw new RangeError('Неизвестное измерение');const scale=from==='overworld'?8:1/8;return {x:Math.round(x/scale),z:Math.round(z/scale)}},
+  distance(points){if(!Array.isArray(points)||points.length!==6||points.some(n=>!Number.isFinite(n)))throw new TypeError('Нужно шесть конечных координат');const distance=Math.hypot(points[3]-points[0],points[4]-points[1],points[5]-points[2]);if(!Number.isFinite(distance))throw new RangeError('Расстояние слишком велико для точного расчёта');return distance},
+  buildBlocks(dimensions){if(!Array.isArray(dimensions)||dimensions.length!==3||dimensions.some(n=>!Number.isSafeInteger(n)||n<1||n>1_000_000))throw new RangeError('Размеры должны быть целыми числами от 1 до 1 000 000');const blocks=dimensions.reduce((a,b)=>a*b,1);if(!Number.isSafeInteger(blocks))throw new RangeError('Объём слишком велик для точного расчёта');return blocks},
+  fuelUnits(items,itemsPerFuel){if(!Number.isSafeInteger(items)||items<0||items>1_000_000_000||!Number.isFinite(itemsPerFuel)||itemsPerFuel<=0)throw new RangeError('Проверьте число предметов и топлива');return Math.ceil(items/itemsPerFuel)},
+  craftRuns(target,outputEach){if(!Number.isSafeInteger(target)||target<1||target>1_000_000||!Number.isSafeInteger(outputEach)||outputEach<1)throw new RangeError('Проверьте количество предметов');return Math.ceil(target/outputEach)},
+  craftMaterials(target,outputEach,ingredients){const runs=this.craftRuns(target,outputEach);if(!Array.isArray(ingredients)||!ingredients.length)throw new RangeError('Для рецепта нет подтверждённых ингредиентов');const materials=ingredients.map(x=>{if(!x||typeof x.name!=='string'||!x.name.trim()||!Number.isSafeInteger(x.count)||x.count<1)throw new RangeError('Некорректный состав рецепта');const total=x.count*runs;if(!Number.isSafeInteger(total))throw new RangeError('Количество слишком велико');return {name:x.name,count:x.count,total,stacks:Math.floor(total/64),remainder:total%64}});return {runs,crafted:runs*outputEach,requested:target,leftover:runs*outputEach-target,materials}}
+});
+})();

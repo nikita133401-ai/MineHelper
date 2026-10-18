@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101712"><meta name="description" content="MineHelper — справочники, калькуляторы и инструменты для Minecraft Java и Bedrock.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>MineHelper — инструменты Minecraft</title><link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#home" aria-label="MineHelper — главная"><span class="brand-icon">M</span><span>Mine<span class="green">Helper</span><small>ИНСТРУМЕНТЫ ДЛЯ MINECRAFT</small></span></a>
+      <div class="edition-switch" aria-label="Редакция игры"><button data-edition="bedrock" class="active">Bedrock</button><button data-edition="java">Java</button></div>
+      <nav id="navigation" aria-label="Основная навигация"></nav>
+      <div class="sidebar-bottom"><button class="nav-link" data-route="settings"><span>⚙</span>Настройки</button><div class="local-note">Данные сохраняются только в этом браузере.</div></div>
+    </aside>
+    <main class="main-area">
+      <header class="topbar"><button id="menuToggle" class="icon-button mobile-only" aria-label="Открыть меню" aria-expanded="false" aria-controls="sidebar">☰</button><div class="breadcrumbs" id="breadcrumbs">Портал <span>/</span> Главная</div><div class="top-actions"><button id="themeToggle" class="icon-button" aria-label="Открыть настройки оформления" title="Настройки оформления">◐</button><a href="#favorites" class="favorite-shortcut">☆ <span>Избранное</span><b id="favoriteCount">0</b></a></div></header>
+      <div id="app" tabindex="-1"></div>
+      <footer><div class="footer-brand">Mine<span class="green">Helper</span></div><span>Независимый справочный проект. Не связан с Mojang или Microsoft.</span><a href="#about">О проекте</a></footer>
+    </main>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="./data.js"></script><script src="./core.js"></script><script src="./app.js"></script>
+</body></html>
+
+
+
